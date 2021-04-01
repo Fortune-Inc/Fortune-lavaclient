@@ -1,5 +1,5 @@
 import type { EventEmitter } from "events";
-import type Lavalink from "@lavaclient/types";
+import type Lavalink from "./types";
 import type WebSocket from "ws";
 
 export class Structures {
@@ -604,6 +604,15 @@ export class Filters implements Lavalink.FilterMap {
   static DEFAULT_TREMOLO: Lavalink.TremoloFilter;
 
   /**
+   * The default tremolo configuration.
+   */
+   static DEFAULT_ROTATION: Lavalink.RotationFilter;
+   
+  /**
+   * The default tremolo configuration.
+   */
+  static DEFAULT_DISTORTION: Lavalink.DistortionFilter;
+  /**
    * The player this filters instance is for..
    */
   readonly player: Player;
@@ -638,6 +647,16 @@ export class Filters implements Lavalink.FilterMap {
   tremolo: Lavalink.TremoloFilter | null;
 
   /**
+   * The tremolo filter.
+   */
+  rotation: Lavalink.RotationFilter | null;
+
+  /**
+   * The tremolo filter.
+   */
+  distortion: Lavalink.DistortionFilter | null;
+
+  /**
    * @param player The player instance.
    */
   constructor(player: Player);
@@ -665,6 +684,18 @@ export class Filters implements Lavalink.FilterMap {
    * Checks if the property does not equal and if any of it's properties doesn't equal 1.0
    */
   get isTimescaleEnabled(): boolean;
+
+  /**
+   * Whether the timescale filter is enabled.
+   * Checks if the property does not equal and if any of it's properties doesn't equal 1.0
+   */
+   get isRotationEnabled(): boolean;
+
+  /**
+   * Whether the timescale filter is enabled.
+   * Checks if the property does not equal and if any of it's properties doesn't equal 1.0
+   */
+   get isDistortionEnabled(): boolean;
 
   /**
    * The filters payload.

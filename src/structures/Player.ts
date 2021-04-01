@@ -1,7 +1,7 @@
 import { EventEmitter } from "events";
 import { Structures } from "../Structures";
 
-import type Lavalink from "@lavaclient/types";
+import type Lavalink from "../../types";
 import type { Filters } from "./Filters";
 import type { Socket } from "./Socket";
 import type { Dictionary, Manager, DiscordVoiceServer, DiscordVoiceState } from "./Manager";

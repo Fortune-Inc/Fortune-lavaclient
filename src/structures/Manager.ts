@@ -2,7 +2,7 @@ import fetch from 'petitio';
 import { EventEmitter } from "events";
 import { Structures } from "../Structures";
 
-import type { LoadTracksResponse } from "@lavaclient/types";
+import type { LoadTracksResponse } from "../../types";
 import type WebSocket from "ws";
 
 import type { Socket, SocketData } from "./Socket";

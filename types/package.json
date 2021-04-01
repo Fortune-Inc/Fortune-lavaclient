@@ -1,0 +1,50 @@
+{
+  "_from": "@lavaclient/types@1.0.4",
+  "_id": "@lavaclient/types@1.0.4",
+  "_inBundle": false,
+  "_integrity": "sha512-70YKaBOonCml/JUJfqpjRTXBVT0P43++y7Musu7SXSTq8KKih9VlYsUsprup3TmACrsJm18sd+4yUb8ju1iwLA==",
+  "_location": "/@lavaclient/types",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@lavaclient/types@1.0.4",
+    "name": "@lavaclient/types",
+    "escapedName": "@lavaclient%2ftypes",
+    "scope": "@lavaclient",
+    "rawSpec": "1.0.4",
+    "saveSpec": null,
+    "fetchSpec": "1.0.4"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@lavaclient/types/-/types-1.0.4.tgz",
+  "_shasum": "de5c408da76b13263edaed566e12dd49bbfec1f7",
+  "_spec": "@lavaclient/types@1.0.4",
+  "_where": "E:\\DISCORDBOT\\Fortune\\Fortune-lavaclient",
+  "author": {
+    "name": "MeLike2D"
+  },
+  "bugs": {
+    "url": "https://github.com/lavaclient/types/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Typings for lavalink.",
+  "devDependencies": {
+    "@types/node": "^14.0.23",
+    "typescript": "^3.9.6"
+  },
+  "homepage": "https://github.com/lavaclient/types#readme",
+  "license": "MIT",
+  "main": "index.js",
+  "name": "@lavaclient/types",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lavaclient/types.git"
+  },
+  "types": "src/index.d.ts",
+  "version": "1.0.4"
+}

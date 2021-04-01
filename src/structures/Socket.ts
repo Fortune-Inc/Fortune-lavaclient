@@ -1,6 +1,6 @@
 import WebSocket from "ws";
 
-import type { NodeStats } from "@lavaclient/types";
+import type { NodeStats } from "../../types";
 import type { Manager, ReconnectOptions } from "./Manager";
 
 export enum Status {

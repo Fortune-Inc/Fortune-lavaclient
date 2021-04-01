@@ -1,78 +1,14 @@
 import type { Player } from "./Player";
-export enum Severity {
-  /**
-   * The cause is known and expected, indicates that there is nothing wrong with the library itself.
-   */
-  COMMON,
-  /**
-   * The cause might not be exactly known, but is possibly caused by outside factors. For example when an outside
-   * service responds in a format that we do not expect.
-   */
-  SUSPICIOUS,
-  /**
-   * If the probable cause is an issue with the library or when there is no way to tell what the cause might be.
-   * This is the default level and other levels are used in cases where the thrower has more in-depth knowledge
-   * about the error.
-   */
-  FAULT,
-}
-
-export interface EqualizerBand {
-  /**
-   * Equalizer Band to Set
-   */
-  band: number;
-  /**
-   * The gain of the equalizer band.
-   */
-  gain: number;
-}
-export interface FilterMap {
-  equalizer?: EqualizerBand[];
-  timescale?: TimescaleFilter | null;
-  tremolo?: TremoloFilter | null;
-  volume?: number;
-  karaoke?: KaraokeFilter | null;
-  rotation?: RotationFilter | null;
-  distortion?: DistortionFilter | null;
-}
-
-export type EqualizerFilter = EqualizerBand[];
-
-export type VolumeFilter = number;
-
-export interface TimescaleFilter {
-  pitch?: number;
-  rate?: number;
-  speed?: number;
-}
-
-export interface TremoloFilter {
-  depth?: number;
-  frequency?: number;
-}
-
-export interface KaraokeFilter {
-  level?: number;
-  monoLevel?: number;
-  filterBand?: number;
-  filterWidth?: number;
-}
-
-export interface RotationFilter {
-  rotationHz?: number;
-}
-
-export interface DistortionFilter {
-  sinOffset?: number,
-  sinScale?: number,
-  cosOffset?: number,
-  cosScale?: number,
-  tanOffset?: number,
-  tanScale?: number,
-  offset?: number,
-  scale?: number
-}
+import type {
+  EqualizerFilter,
+  Filters as FilterMap,
+  KaraokeFilter,
+  TimescaleFilter,
+  TremoloFilter,
+  VolumeFilter,
+  RotationFilter,
+  DistortionFilter
+} from "../../types/filters";
 export class Filters implements FilterMap {
   /**
    * The default volume configuration
