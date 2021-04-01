@@ -1,13 +1,78 @@
 import type { Player } from "./Player";
-import type {
-  EqualizerFilter,
-  Filters as FilterMap,
-  KaraokeFilter,
-  TimescaleFilter,
-  TremoloFilter,
-  VolumeFilter
-} from "@lavaclient/types";
+export enum Severity {
+  /**
+   * The cause is known and expected, indicates that there is nothing wrong with the library itself.
+   */
+  COMMON,
+  /**
+   * The cause might not be exactly known, but is possibly caused by outside factors. For example when an outside
+   * service responds in a format that we do not expect.
+   */
+  SUSPICIOUS,
+  /**
+   * If the probable cause is an issue with the library or when there is no way to tell what the cause might be.
+   * This is the default level and other levels are used in cases where the thrower has more in-depth knowledge
+   * about the error.
+   */
+  FAULT,
+}
 
+export interface EqualizerBand {
+  /**
+   * Equalizer Band to Set
+   */
+  band: number;
+  /**
+   * The gain of the equalizer band.
+   */
+  gain: number;
+}
+export interface FilterMap {
+  equalizer?: EqualizerBand[];
+  timescale?: TimescaleFilter | null;
+  tremolo?: TremoloFilter | null;
+  volume?: number;
+  karaoke?: KaraokeFilter | null;
+  rotation?: RotationFilter | null;
+  distortion?: DistortionFilter | null;
+}
+
+export type EqualizerFilter = EqualizerBand[];
+
+export type VolumeFilter = number;
+
+export interface TimescaleFilter {
+  pitch?: number;
+  rate?: number;
+  speed?: number;
+}
+
+export interface TremoloFilter {
+  depth?: number;
+  frequency?: number;
+}
+
+export interface KaraokeFilter {
+  level?: number;
+  monoLevel?: number;
+  filterBand?: number;
+  filterWidth?: number;
+}
+
+export interface RotationFilter {
+  rotationHz?: number;
+}
+
+export interface DistortionFilter {
+  sinOffset?: number,
+  sinScale?: number,
+  cosOffset?: number,
+  cosScale?: number,
+  tanOffset?: number,
+  tanScale?: number,
+  offset?: number,
+  scale?: number
+}
 export class Filters implements FilterMap {
   /**
    * The default volume configuration
@@ -40,7 +105,30 @@ export class Filters implements FilterMap {
     depth: .5,
     frequency: 2
   }
+  
+  
+  /**
+   * The default rotation configuration.
+   */
+  static DEFAULT_ROTATION: RotationFilter = {
+    rotationHz: 0
+  }
 
+
+  /**
+   * The default distortion configuration.
+   */
+   static DEFAULT_DISTORTION: DistortionFilter = {
+    sinOffset: 0,
+    sinScale: 1,
+    cosOffset: 0,
+    cosScale: 1,
+    tanOffset: 0,
+    tanScale: 1,
+    offset: 0,
+    scale: 1
+  }
+  
   /**
    * The player this filters instance is for..
    */
@@ -75,6 +163,18 @@ export class Filters implements FilterMap {
    */
   tremolo: TremoloFilter | null;
 
+  
+  /**
+   * The tremolo filter.
+   */
+  rotation: RotationFilter | null;
+
+   
+  /**
+   * The tremolo filter.
+   */
+  distortion: DistortionFilter | null;
+
   /**
    * @param player The player instance.
    */
@@ -86,6 +186,8 @@ export class Filters implements FilterMap {
     this.tremolo = null;
     this.karaoke = null;
     this.timescale = null;
+    this.rotation = null;
+    this.distortion = null;
   }
 
   /**
@@ -121,6 +223,21 @@ export class Filters implements FilterMap {
   }
 
   /**
+   * Whether the timescale filter is enabled.
+   * Checks if the property does not equal and if any of it's properties doesn't equal 1.0
+   */
+   get isDistortionEnabled(): boolean {
+    return !!this.distortion && Object.values(this.distortion).some(v => v !== null);
+  }
+  /**
+   * Whether the timescale filter is enabled.
+   * Checks if the property does not equal and if any of it's properties doesn't equal 1.0
+   */
+   get isRotationEnabled(): boolean {
+    return !!this.rotation && this.rotation.rotationHz !== 0.0;
+  }
+
+  /**
    * The filters payload.
    */
   get payload(): FilterMap {
@@ -141,6 +258,12 @@ export class Filters implements FilterMap {
       payload.tremolo = this.tremolo;
     }
 
+    if (this.isRotationEnabled) {
+      payload.rotation = this.rotation;
+    }
+    if (this.isDistortionEnabled) {
+      payload.distortion = this.distortion;
+    }
     return payload;
   }
 
