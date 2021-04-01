@@ -1,4 +1,5 @@
-# LavaClient
+# Fortune-lavaclient
+A lavaclient fork try to fix some problem with lavaclient
 
 [![discord server][discord]](https://discord.gg/vuJxnYk) &bull; [![codacy rating][codacy]](https://www.codacy.com/gh/Lavaclient/lavaclient?utm_source=github.com&utm_medium=referral&utm_content=Lavaclient/lavaclient&utm_campaign=Badge_Grade) &bull; [![npm version][version]](https://npmjs.com/lavaclient)
 
