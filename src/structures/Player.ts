@@ -160,12 +160,8 @@ export class Player extends EventEmitter {
    * @since 3.0.14
    */
   async move(socket: Socket): Promise<Player> {
+    await this.destroy();//destroy old node first
     this.socket = socket;
-
-    await this.destroy();
-    if (this.channel) {
-      this.connect(this.channel);
-    }
 
     return this;
   }
