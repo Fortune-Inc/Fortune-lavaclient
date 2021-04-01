@@ -15,9 +15,9 @@ A simple, easy-to-use, and flexible node.js lavalink client.
 > node.js v14 or newer needed.
 
 ```sh
-npm install lavaclient
+npm install https://github.com/Fortune-Inc/Fortune-lavaclient.git
 # or
-yarn add lavaclient
+yarn add https://github.com/Fortune-Inc/Fortune-lavaclient.git
 ```
 
 ## Usage
