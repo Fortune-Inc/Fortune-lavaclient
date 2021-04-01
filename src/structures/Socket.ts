@@ -274,7 +274,7 @@ export class Socket {
     }
 
     const player = this.manager.players.get(pk.guildId as string);
-    if (pk.guildId && player) {
+    if (pk.guildId && player && player.socket.id == this.id) {
       await player.emit(pk.op, pk);
     } else if (pk.op === "stats") {
       this.stats = pk;
