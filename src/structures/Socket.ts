@@ -215,6 +215,7 @@ export class Socket {
    * @private
    */
   private async _open(): Promise<void> {
+    this.remainingTries = Number(this.manager.options.reconnect.maxTries ?? 5);
     this.manager.emit("socketReady", this);
 
     this._processQueue();
