@@ -595,7 +595,7 @@ export abstract class Plugin {
   init(): void;
 }
 
-export class Filters implements Lavalink.FilterMap {
+export class Filters implements Lavalink.Filters {
   /**
    * The default volume configuration
    */
@@ -704,14 +704,14 @@ export class Filters implements Lavalink.FilterMap {
    get isRotationEnabled(): boolean;
 
   /**
-   * Whether the distortion filter is enabled.
+   * Whether the Distortion filter is enabled.
    */
    get isDistortionEnabled(): boolean;
 
   /**
    * The filters payload.
    */
-  get payload(): Lavalink.FilterMap;
+  get payload(): Lavalink.Filters;
 
   /**
    * Applies the filters to the player.
