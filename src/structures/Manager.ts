@@ -14,6 +14,8 @@ const defaults = {
     key: Math.random().toString(32),
     timeout: 60000,
   },
+  send:()=>{throw new Error("Please Provide Send Function")},
+  auto_fallback_socket: true,
   reconnect: {
     auto: true,
     delay: 15000,
@@ -97,6 +99,10 @@ export class Manager extends EventEmitter {
         plugin.load(this);
       }
     }
+    if(this.options.auto_fallback_socket){
+      this.on("socketClose",(e,socket)=>this.fallback(socket))
+    }
+    
   }
 
   /**
@@ -105,7 +111,40 @@ export class Manager extends EventEmitter {
   get ideal(): Socket[] {
     return [...this.sockets.values()].filter(s=>s.status==0).sort((a, b) => a.penalties - b.penalties)||[];
   }
+  
+  /**
+   * Fallback player to other Fresh new Socket
+   * @param socket Socket
+   */
+  fallback(socket: Socket): void {
+    let manager = this
+    this.players.forEach(async p=>{
+      if(p.socket.id==socket.id){
 
+        if(!p.channel) return this.players.delete(p.guild)//if channel is not exist delete this player
+        let position = Math.max(p.position,0);
+        let startfind = new Date().getTime();
+
+        /**
+         * Find New Fresh Socket
+         */
+        async function find_socket() {
+          if(!manager.ideal[0]) return setTimeout(find_socket, 1000);
+          let found_time = new Date().getTime();
+          let offset = (found_time-startfind)+1000;
+          await p.move(manager.ideal[0])
+          await p.send("voiceUpdate", {
+            sessionId: p._sessionId,
+            event: p._server,
+          });
+          p.filters.apply()
+          if(p.track) p.play(p.track,{startTime:position+offset})
+        }
+
+        find_socket()
+      }
+    })
+  }
   /**
    * Initializes this manager. Connects all provided sockets.
    * @param userId The client user id.
@@ -253,7 +292,7 @@ export interface Manager {
   /**
    * Emitted when a lavalink socket has been closed.
    */
-  on(event: "socketClose", listener: (event: WebSocket.CloseEvent, socket: Socket) => any): this;
+  on(event: "socketClose", listener: (event: WebSocket.CloseEvent|WebSocket.ErrorEvent, socket: Socket) => any): this;
 
   /**
    * Emitted when a lavalink socket has ran out of reconnect tries.
@@ -267,6 +306,11 @@ export interface ManagerOptions {
    */
   send: Send;
 
+
+  /**
+   * Fallback Socket if socket die on playing
+   */
+  auto_fallback_socket: Boolean;
   /**
    * The number of shards the client has.
    */
