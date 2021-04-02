@@ -200,30 +200,6 @@ export class Socket {
     this.ws.onclose = this._close.bind(this);
     this.ws.onerror = this._error.bind(this);
   }
-
-  /**
-   * Reconnect to the lavalink node.
-   */
-  reconnect(): void {
-    if (this.remainingTries !== 0) {
-      this.remainingTries -= 1;
-      this.status = Status.RECONNECTING;
-
-      try {
-        this.connect();
-        clearTimeout(this.reconnectTimeout);
-      } catch (e) {
-        this.manager.emit("socketError", this, e);
-        this.reconnectTimeout = setTimeout(() => {
-          this.reconnect();
-        }, this.reconnection.delay ?? 15000);
-      }
-    } else {
-      this.status = Status.DISCONNECTED;
-      this.manager.emit("socketDisconnect", this, "Ran out of reconnect tries.");
-    }
-  }
-
   /**
    * Configures lavalink resuming.
    * @since 1.0.0
@@ -280,21 +256,32 @@ export class Socket {
       this.stats = pk;
     }
   }
-
+  
+  /**
+   * Reconnect to the lavalink node.
+   */
+   reconnect(): void {
+    if (this.remainingTries !== 0) {
+        this.remainingTries--;
+        setTimeout(() => {
+          this.status = Status.RECONNECTING;
+          this.connect();
+        }, this.manager.options.reconnect.delay);
+    } else {
+      this.status = Status.DISCONNECTED;
+      this.manager.emit("socketDisconnect", this, "Ran out of reconnect tries.");
+    }
+  }
   /**
    * Handles the close of the websocket.
    * @since 1.0.0
    * @private
    */
   private _close(event: WebSocket.CloseEvent): void {
-    if (this.remainingTries === this.reconnection.maxTries) {
-      this.manager.emit("socketClose", event);
-    }
-
-    if (event.code !== 1000 && event.reason !== "destroy") {
-      if (this.reconnection.auto) {
-        this.reconnect();
-      }
+    this.status = Status.DISCONNECTED;
+    this.manager.emit("socketClose",event,this)
+    if(this.reconnection.auto){
+      this.reconnect()
     }
   }
 
@@ -304,7 +291,17 @@ export class Socket {
    * @private
    */
   private _error(event: WebSocket.ErrorEvent): void {
+    
     const error = event.error ? event.error : event.message;
+
+    if(error.code=="ECONNREFUSED"){
+      this.status = Status.DISCONNECTED;
+      this.manager.emit("socketClose",event,this)
+      if(this.reconnection.auto){
+          this.reconnect()
+      }
+    }
+    
     this.manager.emit("socketError", this, error);
   }
 
