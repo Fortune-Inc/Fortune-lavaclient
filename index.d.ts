@@ -46,6 +46,13 @@ export class Manager extends EventEmitter {
    * A send method for sending voice state updates to discord.
    */
   send: Send;
+  
+
+  /**
+   * Fallback Socket if socket die on playing
+   */
+  auto_fallback_socket: Boolean;
+
   /**
    * Resume options.
    */
@@ -61,6 +68,12 @@ export class Manager extends EventEmitter {
    * Ideal nodes to use.
    */
   get ideal(): Socket[];
+
+  /**
+   * Fallback player to other Fresh new Socket
+   * @param socket Socket
+   */
+   fallback(socket: Socket): void;
 
   /**
    * Initializes this manager. Connects all provided sockets.
@@ -129,7 +142,7 @@ export interface Manager {
   /**
    * Emitted when a lavalink socket has been closed.
    */
-  on(event: "socketClose", listener: (event: WebSocket.CloseEvent, socket: Socket) => any): this;
+  on(event: "socketClose", listener: (event: WebSocket.CloseEvent|WebSocket.ErrorEvent, socket: Socket) => any): this;
 
   /**
    * Emitted when a lavalink socket has ran out of reconnect tries.
@@ -686,14 +699,12 @@ export class Filters implements Lavalink.FilterMap {
   get isTimescaleEnabled(): boolean;
 
   /**
-   * Whether the timescale filter is enabled.
-   * Checks if the property does not equal and if any of it's properties doesn't equal 1.0
+   * Whether the rotation filter is enabled.
    */
    get isRotationEnabled(): boolean;
 
   /**
-   * Whether the timescale filter is enabled.
-   * Checks if the property does not equal and if any of it's properties doesn't equal 1.0
+   * Whether the distortion filter is enabled.
    */
    get isDistortionEnabled(): boolean;
 

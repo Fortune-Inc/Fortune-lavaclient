@@ -101,13 +101,13 @@ export class Filters implements FilterMap {
 
   
   /**
-   * The tremolo filter.
+   * The rotation filter.
    */
   rotation: RotationFilter | null;
 
    
   /**
-   * The tremolo filter.
+   * The distortion filter.
    */
   distortion: DistortionFilter | null;
 
@@ -159,15 +159,13 @@ export class Filters implements FilterMap {
   }
 
   /**
-   * Whether the timescale filter is enabled.
-   * Checks if the property does not equal and if any of it's properties doesn't equal 1.0
+   * Whether the distortion filter is enabled.
    */
    get isDistortionEnabled(): boolean {
     return !!this.distortion && Object.values(this.distortion).some(v => v !== null);
   }
   /**
-   * Whether the timescale filter is enabled.
-   * Checks if the property does not equal and if any of it's properties doesn't equal 1.0
+   * Whether the rotation filter is enabled.
    */
    get isRotationEnabled(): boolean {
     return !!this.rotation && this.rotation.rotationHz !== 0.0;
