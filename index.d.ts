@@ -155,6 +155,13 @@ export interface ManagerOptions {
    * A method used for sending discord voice updates.
    */
   send: Send;
+  
+
+  /**
+   * Fallback Socket if socket die on playing
+   */
+   auto_fallback_socket: Boolean;
+  
   /**
    * The number of shards the client has.
    */

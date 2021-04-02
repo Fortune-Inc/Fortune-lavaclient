@@ -311,6 +311,7 @@ export interface ManagerOptions {
    * Fallback Socket if socket die on playing
    */
   auto_fallback_socket: Boolean;
+  
   /**
    * The number of shards the client has.
    */
