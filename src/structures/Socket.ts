@@ -61,12 +61,6 @@ export class Socket {
    * Whether or not this lavalink node uses an ssl.
    */
   secure: boolean;
-
-  /**
-   * The timeout for reconnecting.
-   */
-  private reconnectTimeout!: NodeJS.Timeout;
-
   /**
    * WebSocket instance for this socket.
    */

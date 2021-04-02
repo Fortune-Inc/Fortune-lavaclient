@@ -1,5 +1,5 @@
 {
-  "name": "lavaclient",
+  "name": "@fortune-inc/lavaclient",
   "version": "3.2.6",
   "description": "A simple, easy-to-use, and flexible lavalink client for node.js",
   "main": "dist/index.js",
@@ -25,9 +25,9 @@
     "ws": "^7.3.1"
   },
   "scripts": {
-    "prepare": "tsc",
+    "tsc": "tsc -p tsconfig.json",
     "build": "tsc",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "npm run tsc"
   },
   "devDependencies": {
     "@types/node": "^14.0.24",

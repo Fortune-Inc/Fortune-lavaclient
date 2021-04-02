@@ -100,7 +100,7 @@ export class Manager extends EventEmitter {
       }
     }
     if(this.options.auto_fallback_socket){
-      this.on("socketClose",(e,socket)=>this.fallback(socket))
+      this.on("socketClose",(_,socket)=>this.fallback(socket))
     }
     
   }
