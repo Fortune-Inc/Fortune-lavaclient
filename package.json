@@ -26,7 +26,9 @@
   },
   "scripts": {
     "tsc": "tsc -p tsconfig.json",
-    "build": "tsc",
+    "prepack": "npm run tsc",
+    "prepare": "npm run tsc",
+    "build": "npm run tsc",
     "prepublishOnly": "npm run tsc"
   },
   "devDependencies": {
