@@ -66,13 +66,13 @@ export class Player extends EventEmitter {
    * The voice state for this player.
    * @internal
    */
-  private _sessionId: string | undefined;
+  _sessionId: string | undefined;
 
   /**
    * The voice server for this player.
    * @internal
    */
-  private _server: DiscordVoiceServer | undefined;
+  _server: DiscordVoiceServer | undefined;
 
   /**
    * The filters instance.
@@ -172,9 +172,9 @@ export class Player extends EventEmitter {
    * @param options Play options to send along with the track.
    * @since 1.x.x
    */
-  play(track: string | Lavalink.Track, options: PlayOptions = {}): this {
+  play(track: string | Lavalink.Track, options: PlayOptions = {}, priority = false): this {
     track = typeof track === "string" ? track : track.track;
-    return this.send("play", Object.assign({ track }, options));
+    return this.send("play", Object.assign({ track,...options }),priority);
   }
 
   /**
@@ -279,7 +279,7 @@ export class Player extends EventEmitter {
       });
 
       this.connected = true;
-      this._server = this._sessionId = undefined;
+      //this._server = this._sessionId = undefined; for future fallback socket
     }
 
     return this;
