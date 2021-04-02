@@ -25,7 +25,7 @@ yarn add https://github.com/Fortune-Inc/Fortune-lavaclient.git
 > Documentation: <https://lavaclient.js.org/> *outdated (join our [support server](https://discord.gg/vuJxnYk) for updates)*
 
 ```ts
-import LavaClient from "lavaclient";
+import LavaClient from "@fortune-inc/lavaclient";
 
 const nodes = [
   {
