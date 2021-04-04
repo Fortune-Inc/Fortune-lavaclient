@@ -167,10 +167,8 @@ export class Socket {
    * @since 1.0.0
    */
   connect(): void {
-    if (this.status !== Status.RECONNECTING) {
-      this.status = Status.CONNECTING;
-    }
-
+    this.status = Status.CONNECTING;
+    
     if (this.connected) {
       this._cleanup();
       this.ws?.close(1012);
@@ -257,11 +255,12 @@ export class Socket {
    */
    reconnect(): void {
     if (this.remainingTries !== 0) {
-        this.remainingTries--;
-        setTimeout(() => {
+          if(this.status==Status.RECONNECTING) return;
+          this.remainingTries--;
           this.status = Status.RECONNECTING;
-          this.connect();
-        }, this.manager.options.reconnect.delay);
+          setTimeout(() => {
+            this.connect();
+          }, this.manager.options.reconnect.delay);
     } else {
       this.status = Status.DISCONNECTED;
       this.manager.emit("socketDisconnect", this, "Ran out of reconnect tries.");
@@ -286,17 +285,7 @@ export class Socket {
    * @private
    */
   private _error(event: WebSocket.ErrorEvent): void {
-    
     const error = event.error ? event.error : event.message;
-
-    if(error.code=="ECONNREFUSED"){
-      this.status = Status.DISCONNECTED;
-      this.manager.emit("socketClose",event,this)
-      if(this.reconnection.auto){
-          this.reconnect()
-      }
-    }
-    
     this.manager.emit("socketError", this, error);
   }
 
