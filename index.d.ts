@@ -1,5 +1,5 @@
 import type { EventEmitter } from "events";
-import type Lavalink from "./types";
+import * as Lavalink from "./types";
 import type WebSocket from "ws";
 
 export class Structures {
@@ -51,7 +51,7 @@ export class Manager extends EventEmitter {
   /**
    * Fallback Socket if socket die on playing
    */
-  auto_fallback_socket: Boolean;
+  auto_fallback_socket?: Boolean;
 
   /**
    * Resume options.
